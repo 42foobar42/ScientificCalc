@@ -353,16 +353,19 @@ function CalcInnerBraces(func){
 			
 			//console.log("Start: " + func[func.indexOf('(') - 1] + " | Length: " + innerBrace.length);
 			
-			
-			var OperationArray = findAllMathOps(func);
-			
-			//if (OperationArray[0].length == 0 && OperationArray[1].length == 0 && OperationArray[2].length == 0 && OperationArray[3].length == 0) {
-			if(OperationArray.length == 0){
-				result = parseFloat(func.toString().replace(",",""));
+			if (func == ErrorMsg) {
+				result = ErrorMsg;
 			} else {
-				var paraFunc = new Array();
+				var OperationArray = findAllMathOps(func);
 				
-				result = calculateMathOp(func,OperationArray);
+				//if (OperationArray[0].length == 0 && OperationArray[1].length == 0 && OperationArray[2].length == 0 && OperationArray[3].length == 0) {
+				if(OperationArray.length == 0){
+					result = parseFloat(func.toString().replace(",",""));
+				} else {
+					var paraFunc = new Array();
+					
+					result = calculateMathOp(func,OperationArray);
+				}
 			}
 			return result;
 			//console.log("result inner: " + result);

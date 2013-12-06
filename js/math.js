@@ -1,3 +1,5 @@
+const AFTERFLOATDIGITS = 50;
+
 function mathFunction(operation,number){
 	var result = 0;
 	if (isNaN(number) && Array.isArray(number) == false){
@@ -167,11 +169,28 @@ function xRoot(numberOne, numberTwo){
 }
 
 function sqr(number){
-	return number*number;
+	var NOPointIndex = number.toString().indexOf(".");
+	if (NOPointIndex >= 0){
+		var sLFloats = makeFloatsSameLength(number, NOPointIndex, number, NOPointIndex);
+		return timesFloats(sLFloats[0],sLFloats[1]);
+	} else {
+		return number*number;
+	}
 }
 
 function cube(number){
-	return number*number*number;
+	var NOPointIndex = number.toString().indexOf(".");
+	if (NOPointIndex >= 0){
+		var sLFloats = makeFloatsSameLength(number, NOPointIndex, number, NOPointIndex);
+		var tempRes = timesFloats(sLFloats[0],sLFloats[1]);
+		console.log("temp:" + tempRes);
+		sLFloats = makeFloatsSameLength( tempRes, tempRes.toString().indexOf("."), number, NOPointIndex);
+		console.log("sfl1:" + sLFloats[0]);
+		console.log("sfl2:" + sLFloats[1]);
+		return timesFloats(sLFloats[0],sLFloats[1]);
+	} else {
+		return number*number*number;
+	}
 }
 
 function reciproc(number){
@@ -183,7 +202,11 @@ function reciproc(number){
 }
 
 function sqrt(number){
-	return Math.sqrt(number);
+	if(number >= 0) {
+		return Math.sqrt(number);
+	} else {
+		return ErrorMsg;
+	}
 }
 
 function fact(number){
@@ -318,32 +341,134 @@ function exactDivision(NoO, NoT){
 	var result = "";
 	var One = NoO;
 	var Two = NoT;
-	console.log("ind: " + Two.indexOf("."));
+	console.log("ind two: " + Two.indexOf("."));
+	console.log("ind One: " + One.indexOf("."));
 	if (Two.indexOf(".") >= 0) {
-		var IndexOfPoint = NoT.length - NoT.indexOf(".") - 1;
-		Two = NoT.replace(".","");
-		One = NoO.replace(".","");
-		One = One.substr(0,Two.length) + "." +  One.substr(Two.length + 1);
+		var IndexOfPoint = Two.length - Two.indexOf(".") - 1;
+		console.log("first : " + One.toString() + "| sec : " + Two.toString());
+		console.log("first leng: " + One.length + "| sec leng: " + Two.length);
+		Two = Two.replace(".","");
+		One = One.replace(".","");
+		
+		if (One.length <= Two.length){
+			console.log("first");
+		} else {
+			console.log("second");
+			One = One.substr(0,Two.length) + "." +  One.substr(Two.length + 1);
+		}
 	}
-	return One + " " + Two + " " + (NoT.length - NoT.indexOf(".") - 1);
-	return One;
+	if(One.indexOf(".") >= 0 && Two.length > One.indexOf(".")){
+		var numberOfZeros = Two.length - One.indexOf(".");
+		result = ".";
+		for ( i = 0; i < numberOfZeros; i++){
+			result = result + "0";
+		}
+	}
+	console.log("One: " + One + " |Two: " + Two);
+	var actIndex = 0;
+	var PointIndex = One.indexOf(".");
+	var count = 0;
+	var Part= "";
+	One = One.replace(".");
+	if(One.length < Two.length ){
+		//var NumberOfZeros = (One.length - 1 - actIndex) - (Two.length - 1);
+		var DiffLength = Two.length - One.length;
+		Part = One;
+		result = "0.";
+		for (i = 0; i < DiffLength; i++){
+			Part = Part + "0";
+			count++;
+			if (i > 0) {
+				result = result + "0";
+			}
+		}
+	} else {
+		Part = One.substr(0,Two.length);
+	}
+	actIndex = Part.length -1;
+	console.log(Part + "  :" + result);
+	
+	do{
+		if (parseInt(Part) >= parseInt(Two)) {
+			var Times = 1;
+			while(parseInt(Two) * Times <= parseInt(Part)){
+				Times++;
+			}
+			Times--;
+			result = result + "" + Times;
+			Part = parseInt(Part) - (parseInt(Two) * Times);
+			console.log("Part: " + Part);
+			actIndex++;
+		} else {
+			result = result + "0";
+			actIndex++;
+		}
+		if(actIndex < One.length-1){
+			Part = Part + One.charAt(actIndex);
+		} else {
+			Part = Part + "0";
+		}
+		if (Part == 0 && actIndex > One.length-1){
+			break;
+		}
+		if(actIndex == One.length){
+			result += ".";
+		}
+		if(actIndex > One.length){
+			count++;
+		}
+	} while(count < AFTERFLOATDIGITS);
+	
+	//return One + " " + Two + " " + (NoT.length - NoT.indexOf(".") - 1) + " |res: " + result;
+	return result;
 }
 
 function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	var One = numberOne.toString();
 	var Two = numberTwo.toString();
+	var addPoint = false;
 	var IndexOfPoint;
+	var OneNeg = false;
+	var TwoNeg = false;
+	if(One.indexOf("-") == 0){
+		OneNeg= true;
+		One = One.replace("-","");
+		NOPointIndex--;
+	}
+	if(Two.indexOf("-") == 0){
+		TwoNeg= true;
+		Two = Two.replace("-","");
+		NTPointIndex--;
+	}
 	if (NOPointIndex > NTPointIndex) {
+		console.log("asd" + NTPointIndex);
+		if (NTPointIndex < 0) {
+			NTPointIndex = Two.length;
+			addPoint = true;
+		}
+		console.log("asd" + NTPointIndex + " afd: " + NOPointIndex);
 		for(i = NOPointIndex-NTPointIndex; i>0;i--){
 			Two = "0"+Two;
 		}
+		console.log("two: " + Two );
+		if(addPoint){
+			Two += ".";
+		}
 		IndexOfPoint=NOPointIndex;
-	} else {
+	} else if(NTPointIndex >= 0){
+		if (NOPointIndex < 0) {
+			NOPointIndex = One.length;
+			addPoint = true;
+		}
 		for(i = NTPointIndex-NOPointIndex; i>0;i--){
 			One = "0"+One;
 		}
+		if(addPoint){
+			One += ".";
+		}
 		IndexOfPoint=NTPointIndex;
 	}
+	
 	if(One.length - IndexOfPoint > Two.length - IndexOfPoint){
 		for(i = (One.length - IndexOfPoint)-(Two.length - IndexOfPoint); i>0;i--){
 			Two = Two+"0";
@@ -352,6 +477,12 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		for(i = (Two.length - IndexOfPoint) - (One.length - IndexOfPoint); i>0;i--){
 			One = One+"0";
 		}
+	}
+	if (OneNeg){
+		One = "-" + One;
+	}
+	if (TwoNeg){
+		Two = "-" + Two;
 	}
 	return new Array(One, Two);
 }

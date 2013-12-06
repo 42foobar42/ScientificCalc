@@ -1,0 +1,288 @@
+html, body, div#page {
+	width:100%;
+	height:100%;
+	margin:auto;
+}
+
+div, input {
+	-moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+/**************navigation**********************/
+div#Menu{
+	width:100%;
+	padding:0.5%;
+	height:5%;
+	background-color: rgb(24,24,24);
+	text-align: center;
+	background-image: linear-gradient(to top right, rgb(95,95,95) 20%, rgb(24,24,24) 80%);
+}
+
+div.menupoint{
+	/*TODO maybe height and with via js*/
+	height:100%;
+	width:20%;
+	border:solid 2px;
+	display: inline-block;
+	border-color: rgb(236,236,236);
+	border-radius: 999px;
+	margin-right:5%;
+	background-color: transparent;
+	/*margin-top:10%;*/
+}
+
+div.menupoint.active{
+	background-color: rgb(236,236,236);
+}
+
+div.Calculator.active{
+	display: block;
+}
+
+div.Calculator{
+	display: none;
+	width:100%;
+	padding:0.5%;
+	height:95%;
+	background-color: rgb(24,24,24);
+	background-image: linear-gradient(to bottom right, rgb(95,95,95) 20%, rgb(24,24,24) 80%);
+}
+/**************************************/
+
+
+/***********Easy Cal *********/
+/*
+div#easyCalc {
+	width:100%;
+	padding:0.5%;
+	height:95%;
+	background-color: rgb(24,24,24);
+	background-image: linear-gradient(to bottom right, rgb(95,95,95) 20%, rgb(24,24,24) 80%);
+}
+*/
+div#easyCalc div#Easydisplay {
+	height:20%;
+	margin:0;
+	border:none;
+}
+
+div#easyCalc div#Easydisplay input.display {
+	width: 100%;
+	height: 100%;
+	font-size: 1.5em;
+}
+
+div#easyCalc div#spacer{
+	height: 5%;
+	width:100%;
+}
+
+div#easyCalc div#EasyNumberPad{
+	margin: 0%;
+	height: 75%;
+	margin-top:0%;
+	border:none;
+	/*overflow:auto;*/
+}
+
+div#easyCalc div#EasyNumberPad input.calcBut{
+	/*TODO Width wegen border */
+	width: 18.4%;
+	margin-right:2%;
+	height:16.6%;
+}
+
+div#easyCalc div#EasyNumberPad div.ECalcRowSpacer{
+	height:4%;
+	float:left;
+	width:100%;
+}
+div#easyCalc div#EasyNumberPad div.ECalcRowSpacerShorter{
+	width:80.2%;
+}
+
+div#easyCalc div#EasyNumberPad  input#Button_MSave, div#easyCalc div#EasyNumberPad  input#Button_MRead, div#easyCalc div#EasyNumberPad  input#Button_Bs, 
+div#easyCalc div#EasyNumberPad  input#Button_Equals {
+	margin-right:0px;
+}
+
+div#easyCalc div#EasyNumberPad  input#Button_Equals{
+	height:37.2%;
+	float:right;
+}
+
+div#easyCalc div#EasyNumberPad  input#Button_Plus{
+	float:none;
+}
+
+div#easyCalc div#EasyNumberPad div#clear{
+	clear:both;
+}
+
+/********************End Easy Cal **************************/
+
+/********************Advanced Cal **************************/
+
+div#advancedCalc div#advancedDisplay{
+	width:100%;
+	height:15%;
+	border:none;
+}
+
+div#advancedCalc div#advancedDisplay div.formula{
+	width:100%;
+	height:60%;
+	border-bottom: none;
+	padding-bottom: 0px;
+	margin:0px;
+	border-bottom-left-radius:0px;
+	border-bottom-right-radius:0px;
+	padding-top:0;
+}
+
+div#advancedCalc div#advancedDisplay div.formula span.active{
+	background-color:rgb(0,0,0);
+	color:rgb(255,255,255);
+}
+
+div#advancedCalc div#advancedDisplay input.result{
+	width:100%;
+	height:40%;
+	border-top:none;
+	padding-top:0px;
+	margin:0px;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+	padding-top:0;
+}
+
+div#advancedCalc div#advancedNumberPad{
+	margin: 0%;
+	height: 75%;
+	margin-top:0%;
+	border:none;
+}
+
+div#page div#advancedCalc input.calcBut{
+	font-size: 1em;
+}
+
+div#advancedCalc div#advancedNumberPad div.static{
+	width:100%;
+	height:50%;
+}
+
+div#advancedCalc div#advancedNumberPad div.dynamic{
+	width:100%;
+	height:50%;
+}
+
+div#advancedCalc div#advancedNumberPad input.calcBut{
+	/*TODO Width wegen border */
+	width: 18.4%;
+	margin-right:2%;
+	height:32%;
+}
+
+div#advancedCalc div#advancedNumberPad input.additonalButton{
+	width: 15%;
+	margin-right:2%;
+	height:32%;
+}
+
+div#advancedCalc div#advancedNumberPad input#AButton_DEL{
+	margin-right:0px;
+	font-size:1em;
+}
+
+div#advancedCalc div#advancedNumberPad input#AButton_9, div#advancedCalc div#advancedNumberPad input#AButton_4, 
+div#advancedCalc div#advancedNumberPad input#AButton_PER , div#advancedCalc div#advancedNumberPad input#AButton_tan, 
+div#advancedCalc div#advancedNumberPad input#AButton_ln, div#advancedCalc div#advancedNumberPad input#AButton_sqrt,
+div#advancedCalc div#advancedNumberPad input#AButton_nPr{
+	margin-right:0px;
+}
+
+div#advancedCalc div#advancedNumberPad div.spacer{
+	width:100%;
+	height:5%;
+	float:left;
+}
+
+div#advancedCalc div#advancedNumberPad div.dynamic input.calcBut {
+	width: 18.4%;
+	margin-right:2%;	
+}
+
+div#advancedCalc div#advancedNumberPad div.dynamic .page2{
+	display:none;
+}
+
+div#advancedCalc div#advancedNumberPad input#aNavRight {
+	float:right;
+	margin-right:0;
+}
+
+
+/********************End Advanced Cal **************************/
+
+/****************************general appearance ******************************************/
+
+div.ElementBox {
+	/*TODO: width wegen border px aendern? */
+	width:100%;
+	/*margin-left: 0.5%;*/
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	padding: 0.5%;
+}
+
+div#page input.display, div#page div.display {
+	border-style: solid;
+	border-color:rgb(198,192,192);
+	border-width: 2px;
+	border-radius: 10px;
+	padding-right:0.5%;
+	text-align:right;
+	background-color:rgb(255,255,255);
+}
+
+body div#page input.numBut{
+	background-color:rgb(18,147,204);
+	color: rgb(255,255,255);
+	text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+	box-shadow: inset  3px 3px 2px #ffffff;
+	background-image: linear-gradient(to bottom right, rgb(37,178,228) 0%, rgb(14,60,116) 100%);
+}
+
+div#page input.calcBut{
+	/*TODO Width wegen border */
+	margin-top:0%;
+	float:left;
+	background-color:rgb(0,0,0);
+	position:relative;
+	font-size: 1.5em;
+	border-style: solid;
+	border-color:rgb(198,192,192);
+	border-width: 2px;
+	border-radius: 10px;
+	box-shadow: inset  3px 3px 2px #888;
+	/*text-shadow: -1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white;*/
+	color:rgb(255,255,255); 
+}
+
+div#easyCalc div#EasyNumberPad input.mathOp, div#advancedCalc div#advancedNumberPad input.additonalButton{
+	background-color: rgb(221,88,38);
+	text-shadow: -1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white;
+	color:rgb(0,0,0);
+	box-shadow: inset  3px 3px 2px #ffffff;	
+	background-image: linear-gradient(to bottom right, rgb(227,122,42) 0%, rgb(186,45,38) 100%);
+}
+
+div#easyCalc div#EasyNumberPad  input#Button_Equals, div#advancedCalc div#advancedNumberPad  input#AButton_Equals{
+	background-color:rgb(255,255,255);
+	color: rgb(0,0,0);
+	background-image:none;
+	box-shadow: 3px 3px 2px #888888 inset;
+}

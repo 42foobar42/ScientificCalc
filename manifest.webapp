@@ -1,0 +1,13 @@
+{
+  "name": "SciencesCalc",
+  "description": "calculator for basic and advanced math",
+  "launch_path": "./",
+  "icons": {
+    "128": "/img/SciencesCal-128.ico"
+  },
+  "developer": {
+    "name": "Alexander Boll",
+    "url": ""
+  },
+  "default_locale": "en"
+}

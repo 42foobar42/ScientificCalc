@@ -33,6 +33,7 @@ function mathFunction(operation,number){
 			break;
 		case 'tan':
 			result = tan(number);
+			break;
 		case 'cosh':
 			result = cosh(number);
 			break;

@@ -16,14 +16,15 @@ test("basic arithmetics", function () {
 		ok(IsResult == ShouldResult, value + " = " + IsResult + " === " + ShouldResult);
 	});
 });
-test("function", function () {
-	var BraceFunctions = new Array("cube", "sqr", "sqrt", "reciproc");
+test("basic function", function () {
+	var BraceFunctions = new Array("cube", "sqr", "sqrt", "reciproc", "fact");
 	var TestNumbers = new Array(-1000, -535.78, -14, -0.678, 0.1, 0, 0.23456, 1, 25, 324.689, 1278);
 	var Results = new Array(
 					new Array(-1000000000, -153801118.456552,  -2744, -0.311665752, 0.001, 0,  0.012905114402816, 1, 15625, 34229671.147894769 , 2087336952),
 					new Array(1000000, 287060.2084, 196, 0.459684, 0.01, 0, 0.0550183936, 1, 625, 105422.946721, 1633284 ),
 					new Array(ErrorMsg, ErrorMsg, ErrorMsg, ErrorMsg, 0.3162277660168379331998893544432718533719555139325216,0, 0.48431394776528996 ,1, 5, 18.01912872477468 , 35.749125863438955 ),
-					new Array(-0.001, -0.0018664377169733846, -0.07142857142857142, -1.4749262536873156 , 10, ErrorMsg, 4.263301500682128 , 1, 0.04, 0.0030798702758639803, 0.000782472613458529 )
+					new Array(-0.001, -0.0018664377169733846, -0.07142857142857142, -1.4749262536873156 , 10, ErrorMsg, 4.263301500682128 , 1, 0.04, 0.0030798702758639803, 0.000782472613458529 ),
+					new Array(ErrorMsg, ErrorMsg, ErrorMsg, ErrorMsg , 0.95135, 1, 0.9097218 , 1, 1.5511210043330986e+25 , "Infinity" , "Infinity"  )
 				  );
 	$.each( BraceFunctions, function( key, value ) {
 		var func = value;
@@ -38,6 +39,30 @@ test("function", function () {
 		});
 	});
 	
+});
+test("exponential function", function () {
+	var base = new Array( -34, -0.45, 0, 1.78, 78);
+	var exponent = new Array( -12, -0.45, 0, 1.78, 34);
+	var result = new Array(
+					new Array( -4.19037601724291e-19, -0.20456648709360922, -1,-532.1480466563924,-1.1756638905368617e+52),
+					new Array(-14502.73243738992545600983409,-1.432367204368292321373492056, -1, -0.2413894440625305987401007,-1.61892029831473198287006104499893845058977603e-12),
+					new Array("Infinity", "Infinity",1,0,0),
+					new Array(0.00098846198668399217842620430,0.77145571195752754204347347293,1,2.790921389541304298145314190,3.26798518091395785287952197068579440972942706574e+8),
+					new Array(1.9718086511517684e-23,0.14078533830872503,1,2333.0733494739684,2.143959077044921e+64)
+				);
+	$.each( base, function( key, value ) {
+		var bs = value;
+		var bsIndex = key;
+		$.each( exponent, function( key, value ) {
+			pushToArray(bs.toString());
+			addFunc("^");
+			addToArray("(" + value + ")");
+			// console.log("This test func: " + myFunctionString.toString());
+			var IsResult = AdvancedCalculate();
+			var Expected = result[bsIndex][key];
+			ok(IsResult == Expected, "function: " + bs + "^(" + value + ")= " + IsResult + " === " + Expected);
+		});
+	});
 });
 function pushToArray(string){
 	myFunctionString = [];

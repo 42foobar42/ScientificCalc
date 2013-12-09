@@ -154,6 +154,7 @@ function AdvancedCalController(){
 	});
 	$( "div#advancedCalc div#advancedNumberPad input#AButton_DEL" ).click(function() {
 		myFunctionString.splice(currentPos,1);
+		// delete active from funcstring
 		if (currentPos >= myFunctionString.length){
 			if(myFunctionString.length > 0){
 				currentPos = myFunctionString.length-1;	
@@ -441,11 +442,90 @@ function braces(){
 
 function printAdvancedFormular(){
 	var DisplayString = "";
+	var braces=0;
 	for(i = 0; i<myFunctionString.length; i++) {
-		DisplayString += '<span class="DigNo' + i + ' Digigts">' + myFunctionString[i] + '</span>';
+		DisplayString += '<span class="';
+		id  ="";
+		if (myFunctionString[i]  == "(") {
+			DisplayString += " brace openbrace";
+			id = ' id="obno'+braces+'"';
+			braces++;
+		}
+		if (myFunctionString[i]  == ")") {
+			braces--;
+			DisplayString += " brace closebrace "
+			id = ' id="cbno'+braces+'"';			
+		}
+		if (isBraceFunc(myFunctionString[i]) !== false) {
+			DisplayString += " funcbrace ";		
+		}
+		DisplayString += ' DigNo' + i + ' Digigts" ' + id + '>' + myFunctionString[i] + '</span>';
 	}
 	$( "div#advancedCalc div#advancedDisplay div.formula" ).html(DisplayString);
 	if (myFunctionString.length > 0) {
+		var actElement = $("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos);
+		if (actElement.hasClass('funcbrace')) {
+			var openBrace = $("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + (currentPos + 1 ) );
+			openBrace.addClass("active");
+			var closebrace = openBrace.attr('id');
+			closebrace = closebrace.replace("obno","");
+			$("div#advancedCalc div#advancedDisplay div.formula span#cbno" + (closebrace) ).addClass('active');
+			$("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos).addClass("active");
+			//currentPos++;
+		}
+		if (actElement.hasClass('brace')) {
+			if(actElement.hasClass('openbrace')){
+				var closebrace = actElement.attr('id');
+				closebrace = closebrace.replace("obno","");
+				$("div#advancedCalc div#advancedDisplay div.formula span#cbno" + (closebrace) ).addClass('active');
+			} else {
+				var openbrace = actElement.attr('id');
+				openbrace = openbrace.replace("cbno","");
+				$("div#advancedCalc div#advancedDisplay div.formula span#obno" + (openbrace) ).addClass('active');
+				actElement = $("div#advancedCalc div#advancedDisplay div.formula span#obno" + (openbrace) );
+			}
+			if(actElement.prev().hasClass('funcbrace')){
+				actElement.prev().addClass('active');
+			}
+		}
 		$("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos).addClass("active");
 	}
+}
+
+function isBraceFunc(funcstring) {
+	var result = funcstring;
+	switch (funcstring) {
+		case 'sqr':
+			break;
+		case 'cube':
+			break;
+		case 'reciproc':
+			break;
+		case 'sqrt':
+			break;
+		case 'fact':
+			break;
+		case '^':
+			break;
+		case 'cos':
+			break;
+		case 'sin':
+			break;
+		case 'tan':
+			break;
+		case 'cosh':
+			break;
+		case 'sinh':
+			break;
+		case 'tanh':
+			break;
+		case 'ln':
+			break;
+		case 'log':
+			break;
+		default:
+			result = false;
+			break;
+	}
+	return result;
 }

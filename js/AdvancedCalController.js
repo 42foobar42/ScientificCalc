@@ -26,6 +26,10 @@ function AdvancedCalController(){
 	
 	$( "div#advancedCalc div#advancedNumberPad input.mathBut" ).click(function() {
 		var CountFuncString = myFunctionString.length;
+		var actElement = $("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos);
+		if (actElement.hasClass('funcbrace')) {
+			currentPos++;
+		}
 		currentPos++;	
 		switch ($(this).attr('id')){
 			case 'AButton_sqr':				
@@ -153,15 +157,63 @@ function AdvancedCalController(){
 		printAdvancedFormular();
 	});
 	$( "div#advancedCalc div#advancedNumberPad input#AButton_DEL" ).click(function() {
-		myFunctionString.splice(currentPos,1);
+		//myFunctionString.splice(currentPos,1);
 		// delete active from funcstring
+		var formula = $( "div#advancedCalc div#advancedDisplay div.formula" ).html();
+		var IdsToDelete = new Array();
+		var numberOfDeletion = 0;
+		$( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function() {
+			var cls = $( this ).attr('class');
+			var posOfClass = cls.indexOf('DigNo') + 5;
+			var id = "";
+
+			//console.log
+			var i = posOfClass;
+			while(!isNaN(cls.charAt(i))){
+				id = cls.charAt(i)+id;
+				i++;
+			}
+			IdsToDelete.push(id);
+			if ($(this).hasClass('belongtofunc')){
+				console.log("first ID: " + $(this).attr('id') );
+				var obid = $( this ).attr('id');
+				obid = obid.replace("obno","");
+				var nextEle = $(this).next();
+				if($( "div#advancedCalc div#advancedDisplay div.formula span#cbno"+obid).length > 0){
+					console.log("close brac exist");
+					while (nextEle.attr('id') != "cbno" + obid){
+						//nextEle.addClass('active');
+						console.log("NE class: " + nextEle.attr('class') );
+						posOfClass = cls.indexOf('DigNo') + 5;
+						id = "";
+						i = posOfClass;
+						while(!isNaN(cls.charAt(i))){
+							id = cls.charAt(i)+id;
+							i++;
+						}
+						IdsToDelete.push(id);
+						nextEle = nextEle.next();
+						console.log("NE ID: " + nextEle.attr('id') );
+					}
+				}				
+			}
+		});
+		while (IdsToDelete.length > 0){
+			var currentId = IdsToDelete.pop();
+			myFunctionString.splice(currentId,1);
+			numberOfDeletion++;
+		}
 		if (currentPos >= myFunctionString.length){
 			if(myFunctionString.length > 0){
 				currentPos = myFunctionString.length-1;	
+			} else {
+				currentPos = 0;
 			}
 		} else {
-			if(currentPos!=0){
+			if(currentPos > 0){
 				currentPos--;
+			} else {
+				currentPos = 0;
 			}
 		}
 		printAdvancedFormular();
@@ -185,7 +237,11 @@ function AdvancedCalculate(){
 		if (myFunctionString.indexOf(')') < 0){
 			var OperationArray = findAllMathOps(myFunctionString);
 			console.log("before REs: " + result);
-			result = calculateMathOp(myFunctionString,OperationArray);
+			if (OperationArray !== false){
+				result = calculateMathOp(myFunctionString,OperationArray);
+			} else {
+				result = ErrorMsg;
+			}
 			console.log("after REs: " + result);
 		} else {
 			var newFuncSt = myFunctionString.slice(0);
@@ -208,12 +264,16 @@ function calculateMathOp(func,OperationArray){
 	$.each( OperationArray, function( key, value ) {
 		console.log("operation: " + value[0]);
 		console.log("last OPIndex: " + lastOp);
-		if (value[0] == '*' || value[0] == '/' || value[0] == 'xroot' || value[0] == 'mod' || value[0] == 'nCr' || value[0] == 'nPr') {
+		if (isPointOp(value[0]) !== false) {
 			var firstVal = "";
 			var secondVal = "";
 			var secEnd = "";
-			for(i = value[1]-1; i >= lastOp+1; i--){
-				firstVal = func[i] + firstVal;
+			if (isPointOp(func[lastOp]) !== false) {
+				firstVal = ResultAfterPointOp.pop();
+			} else {
+				for(i = value[1]-1; i >= lastOp+1; i--){
+					firstVal = func[i] + firstVal;
+				}
 			}
 			console.log("key: " + key);
 			console.log( " | length: " + (OperationArray.length-1));
@@ -227,6 +287,9 @@ function calculateMathOp(func,OperationArray){
 			for(i = value[1]+1; i <= secEnd; i++){
 				secondVal += func[i];
 			}
+			// if (key+1 < OperationArray.length-1, isPointOp(OperationArray[key+1][0])){
+				// console.log("replace Nomber");
+			// }
 			console.log("f V: " + firstVal + "| sec V: " + secondVal);
 			ResultAfterPointOp.push(mathOperation(firstVal, secondVal, value[0]));
 			lastOp=value[1];
@@ -324,29 +387,48 @@ function CalcInnerBraces(func){
 					}
 					console.log("BExp: " + number);
 					console.log("EExp: " + result);
-					result = mathFunction('^', new Array(number, CalcInnerBraces(InnerArray)));
+					result = CalcInnerBraces(InnerArray);
+					if (result != ErrorMsg) {
+						result = mathFunction('^', new Array(number, result));
+					}
 					func.splice(index + 1, lengthInnerBrace + number.length + 1 , result);
 					//newFuncSt
 				} else {
 					// calc with func
 					var InnerBracRes = CalcInnerBraces(InnerArray);
+					if(InnerBracRes != ErrorMsg){
 					result = mathFunction(func[func.indexOf('(') - 1],InnerBracRes);
-					// clac rest of braces
+						// clac rest of braces
 					console.log("Before inner sp: " + func.toString());
 					var additional = 0;
 					if (func[startInnerBrace+lengthInnerBrace] == ')') {
 						additional=1;
 					}
-					console.log("res Before inner sp: " + result);
+					console.log("eeeres Before inner sp: " + result);
 					if (result === false){
 						if(!isNaN(func[func.indexOf('(') - 1])){
-							func.splice(startInnerBrace+1,0,"*");
+							func.splice(func.indexOf('(') - 1,0,"*");
 							startInnerBrace++;
 							//console.log("after times: " + func.toString());
 						} 
 						func.splice(startInnerBrace+1, lengthInnerBrace-1 + additional, InnerBracRes);
 					} else {
+						console.log("NOTFALSE " + startInnerBrace);
 						func.splice(startInnerBrace, lengthInnerBrace + additional, result);
+						console.log("NOTFALSE2 " + result.toString().length);
+						if(!isNaN(func[startInnerBrace+result.toString().length])){
+							func.splice(startInnerBrace+result.toString().length,0,"*");
+							//startInnerBrace++;
+							//console.log("after times: " + func.toString());
+						}
+						if(!isNaN(func[startInnerBrace - 1])){
+							func.splice(startInnerBrace,0,"*");
+							startInnerBrace++;
+							//console.log("after times: " + func.toString());
+						}
+					}
+					} else {
+						func = ErrorMsg;
 					}
 					console.log("after inner sp: " + func.toString());
 				}
@@ -360,11 +442,11 @@ function CalcInnerBraces(func){
 				var OperationArray = findAllMathOps(func);
 				
 				//if (OperationArray[0].length == 0 && OperationArray[1].length == 0 && OperationArray[2].length == 0 && OperationArray[3].length == 0) {
-				if(OperationArray.length == 0){
+				if(OperationArray === false){
+					result = ErrorMsg;
+				} else if(OperationArray.length == 0){
 					result = parseFloat(func.toString().replace(",",""));
 				} else {
-					var paraFunc = new Array();
-					
 					result = calculateMathOp(func,OperationArray);
 				}
 			}
@@ -374,9 +456,14 @@ function CalcInnerBraces(func){
 			//console.log("after: " + func.toString());
 		}
 	}
+	if (braceResult != ErrorMsg){
 	var OperationArray = findAllMathOps(func);
 	//if (OperationArray[0].length == 0 && OperationArray[1].length == 0 && OperationArray[2].length == 0 && OperationArray[3].length == 0) {
-	if(OperationArray.length == 0){
+	console.log("sad: " + OperationArray);
+	if (OperationArray===false) {
+		console.log("false");
+		braceResult = ErrorMsg;
+	}else if(OperationArray.length == 0){
 		console.log("Only numb: " + func.toString());
 		braceResult = func.toString().replace(/,/g,"");
 		braceResult = braceResult.replace(/\)/g,"");
@@ -392,6 +479,7 @@ function CalcInnerBraces(func){
 		if (paraFunc[paraFunc.length - 1] == ')') { paraFunc.pop(); }
 		braceResult = calculateMathOp(paraFunc,OperationArray);
 	}
+	}
 	return braceResult;
 }
 
@@ -399,6 +487,7 @@ function findAllMathOps(func){
 	var idnex=0;
 	var OpArray = new Array();
 	//console.log("Func String:" + func.toString());
+	var lastIndex = -2;
 	for(index = 0; index<func.length ; index++){
 		if (func[index] == '*'){
 			//Times.push(index);
@@ -428,6 +517,11 @@ function findAllMathOps(func){
 		if (func[index] == 'xroot') {
 			OpArray.push(new Array('xroot', index));
 		}
+		if(OpArray.length> 1 && OpArray[OpArray.length-2][1]+1 == OpArray[OpArray.length-1][1]){
+			//alert(lastIndex + " :Two mathop: " + OpArray[OpArray.length-1][1]);
+			OpArray = false;
+		}
+		//lastIndex = index;
 	}
 	return OpArray;
 }
@@ -442,19 +536,31 @@ function braces(){
 
 function printAdvancedFormular(){
 	var DisplayString = "";
-	var braces=0;
+	var obraces=0;
+	var cbraces=0;
+	var OpenIdArray = new Array();
+	var NoOfBraces = myFunctionString.toString().split("(").length -1;
 	for(i = 0; i<myFunctionString.length; i++) {
 		DisplayString += '<span class="';
 		id  ="";
 		if (myFunctionString[i]  == "(") {
 			DisplayString += " brace openbrace";
-			id = ' id="obno'+braces+'"';
-			braces++;
+			if(i-1>=0 && isBraceFunc(myFunctionString[i-1]) !== false){
+				DisplayString += " belongtofunc";
+			}
+			id = ' id="obno'+obraces+'"';
+			OpenIdArray.unshift(obraces);
+			obraces++;
+			//cbraces++;
 		}
-		if (myFunctionString[i]  == ")") {
-			braces--;
+		if (myFunctionString[i]  == ")") {	
+			//cbraces--;
 			DisplayString += " brace closebrace "
-			id = ' id="cbno'+braces+'"';			
+			id = ' id="cbno'+ (OpenIdArray.shift()) +'"';
+			cbraces++;
+			// if (cbraces-obraces == 0){
+				// cbraces = obraces;
+			// }
 		}
 		if (isBraceFunc(myFunctionString[i]) !== false) {
 			DisplayString += " funcbrace ";		
@@ -522,6 +628,28 @@ function isBraceFunc(funcstring) {
 		case 'ln':
 			break;
 		case 'log':
+			break;
+		default:
+			result = false;
+			break;
+	}
+	return result;
+}
+
+function isPointOp(funcstring) {
+	var result = funcstring;
+	switch (funcstring) {
+		case '*':
+			break;
+		case '/':
+			break;
+		case 'xroot':
+			break;
+		case 'mod':
+			break;
+		case 'nCr':
+			break;
+		case 'nPr':
 			break;
 		default:
 			result = false;

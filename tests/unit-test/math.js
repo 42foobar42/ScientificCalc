@@ -4,11 +4,11 @@ test("basic arithmetics", function () {
 	var Problem = new Array("5+5", "3.45+2.78", "0.1+0.2", "0.1+0.04", "12.4+5.07", "3412.578+9.00007","9.00007+3412.578", "5.5+5.5", 
 							"7-3", "5-5", "55-250", "3.5-2.6", "456.789-456.789", "40.563-41.345", "7.6-3.2", "2.01-3.1","3.1-2.01",
 							"5*6", "5*0", "2.5*3.4", "0.1*0.2", "7.4325*234.768", "364567*9876987",
-							"8/4","9/0","45/45","4/8","456.789/456.789", "7/16", "45.95/25");
+							"8/4","9/0","45/45","4/8","456.789/456.789", "7/16", "45.95/25", "15/3");
 	var solution = new Array(10, 6.23, 0.3, 0.14, 17.47, 3421.57807,3421.57807, 11, 
 							4, 0, -195, 0.9, 0, -0.782, 4.4, -1.09, 1.09,
 							30, 0, 8.5, 0.02, 1744.91316, 3600823519629,
-							2, ErrorMsg, 1, 0.5, 1, 0.4375, 1.838);
+							2, ErrorMsg, 1, 0.5, 1, 0.4375, 1.838, 5);
 	$.each( Problem, function( key, value ) {
 		pushToArray(value);
 		var IsResult = AdvancedCalculate();
@@ -62,6 +62,16 @@ test("exponential function", function () {
 			var Expected = result[bsIndex][key];
 			ok(IsResult == Expected, "function: " + bs + "^(" + value + ")= " + IsResult + " === " + Expected);
 		});
+	});
+});
+test("long terms", function () {
+	var term = new Array( "1*2*3", "3*4-1", "3-4*2", "2*3-7*6", "4-5*2+7*(-2)", "5*5*4");
+	var result = new Array( 6, 11, -5, -36, -20, 100);
+	$.each( term, function( key, value ) {
+		pushToArray(value);
+		var IsResult = AdvancedCalculate();
+		var Expected = result[key];
+		ok(IsResult == Expected, value + " = " + IsResult + " === " + Expected);
 	});
 });
 function pushToArray(string){

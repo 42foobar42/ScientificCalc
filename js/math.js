@@ -343,7 +343,7 @@ function exactDivision(NoO, NoT){
 	var One = NoO;
 	var Two = NoT;
 	console.log("ind two: " + Two.indexOf("."));
-	console.log("ind One: " + One.indexOf("."));
+	console.log(One + " :ind One: " + One.indexOf("."));
 	if (Two.indexOf(".") >= 0) {
 		var IndexOfPoint = Two.length - Two.indexOf(".") - 1;
 		console.log("first : " + One.toString() + "| sec : " + Two.toString());
@@ -404,7 +404,7 @@ function exactDivision(NoO, NoT){
 			result = result + "0";
 			actIndex++;
 		}
-		if(actIndex < One.length-1){
+		if(actIndex <= One.length-1){
 			Part = Part + One.charAt(actIndex);
 		} else {
 			Part = Part + "0";
@@ -418,10 +418,11 @@ function exactDivision(NoO, NoT){
 		if(actIndex > One.length){
 			count++;
 		}
+		console.log("part  :" +  Part);
 	} while(count < AFTERFLOATDIGITS);
 	
 	//return One + " " + Two + " " + (NoT.length - NoT.indexOf(".") - 1) + " |res: " + result;
-	return result;
+	return parseFloat(result);
 }
 
 function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){

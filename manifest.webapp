@@ -1,13 +1,24 @@
 {
-  "name": "SciencesCalc",
+  "name": "ScCalc",
+  "version": "0.1",
   "description": "calculator for basic and advanced math",
-  "launch_path": "./",
+  "launch_path": "/ScCalc/index.html",
   "icons": {
-    "128": "/img/SciencesCal-128.ico"
+	"16": "/ScCalc/img/icon-16.png",	
+	"32": "/ScCalc/img/icon-32.png",
+	"48": "/ScCalc/img/icon-48.png",
+	"60": "/ScCalc/img/icon-60.png",
+	"90": "/ScCalc/img/icon-90.png",
+	"120": "/ScCalc/img/icon-120.png",
+    "128": "/ScCalc/img/icon-128.png",
+	"256": "/ScCalc/img/icon-256.png"
   },
   "developer": {
     "name": "Alexander Boll",
-    "url": ""
+    "url": "https://github.com/42foobar42/ScientificCalc"
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "fullscreen": "true",
+  "orientation": ["portrait"],
+  "type": "web"
 }

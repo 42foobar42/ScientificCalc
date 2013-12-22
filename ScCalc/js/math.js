@@ -6,6 +6,8 @@ function mathFunction(operation,number){
 		number.replace('%','');
 		number = mathOperation(parseFloat(number), 100, '/');
 	}
+	//consoloe.log("Math func: " + );
+	//number = number.toString();
 	switch (operation) {
 		case 'sqr':
 			result = sqr(number);
@@ -60,18 +62,18 @@ function mathOperation(numberOne, numberTwo, Operation){
 	var result = 0;
 	var NoO = numberOne;
 	var NoT = numberTwo;
-	//console.log("No: " + numberOne);
+	console.log("No: " + numberOne + " |Two: " + numberTwo);
 	if (isNaN(NoO)) {
 		NoO.replace('%','');
 		NoO = mathOperation(parseFloat(NoO), 100, '/');
 	} else {
-		NoO = parseFloat(numberOne);
+		// NoO = parseFloat(numberOne);
 	}
 	if (isNaN(NoT)) {
 		NoT.replace('%','');
 		NoT = mathOperation(parseFloat(NoT), 100, '/');
 	} else {
-		NoT = parseFloat(numberTwo);
+		// NoT = parseFloat(numberTwo);
 	}
 	console.log("No: " + NoO + "\ Nt: " + NoT);
 	switch (Operation) {
@@ -111,7 +113,7 @@ function Plus(numberOne, numberTwo){
 		return addFloats(sLFloats[0],sLFloats[1]);
 		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
-		return numberOne + numberTwo;
+		return parseInt(numberOne) + parseInt(numberTwo);
 	}
 }
 
@@ -123,7 +125,7 @@ function Minus(numberOne, numberTwo){
 		return subFloats(sLFloats[0],sLFloats[1]);
 		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
-		return numberOne - numberTwo;
+		return parseInt(numberOne) - parseInt(numberTwo);
 	}
 }
 
@@ -135,7 +137,7 @@ function Times(numberOne, numberTwo){
 		return timesFloats(sLFloats[0],sLFloats[1]);
 		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
-		return numberOne * numberTwo;
+		return parseInt(numberOne) * parseInt(numberTwo);
 	}
 }
 
@@ -190,7 +192,7 @@ function sqr(number){
 		var sLFloats = makeFloatsSameLength(number, NOPointIndex, number, NOPointIndex);
 		return timesFloats(sLFloats[0],sLFloats[1]);
 	} else {
-		return number*number;
+		return parseInt(number)*parseInt(number);
 	}
 }
 
@@ -465,6 +467,14 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	var IndexOfPoint;
 	var OneNeg = false;
 	var TwoNeg = false;
+	if(One.indexOf(".") == 0){
+		One = "0"+One;
+		NOPointIndex++;
+	}
+	if(Two.indexOf(".") == 0){
+		Two = "0"+Two;
+		NTPointIndex++;
+	}
 	if(One.indexOf("-") == 0){
 		OneNeg= true;
 		One = One.replace("-","");
@@ -476,12 +486,12 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		NTPointIndex--;
 	}
 	if (NOPointIndex > NTPointIndex) {
-		console.log("asd" + NTPointIndex);
+		// console.log("asd" + NTPointIndex);
 		if (NTPointIndex < 0) {
 			NTPointIndex = Two.length;
 			addPoint = true;
 		}
-		console.log("asd" + NTPointIndex + " afd: " + NOPointIndex);
+		// console.log("asd" + NTPointIndex + " afd: " + NOPointIndex);
 		for(i = NOPointIndex-NTPointIndex; i>0;i--){
 			Two = "0"+Two;
 		}
@@ -524,5 +534,6 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	if (TwoNeg){
 		Two = "-" + Two;
 	}
+	console.log("*Back makeFloatsSameLength* No1:" + One + " |No2: " + Two);
 	return new Array(One, Two);
 }

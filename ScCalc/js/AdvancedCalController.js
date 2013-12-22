@@ -32,6 +32,10 @@ function AdvancedCalController(){
 		if (actElement.hasClass('funcbrace')) {
 			currentPos++;
 		}
+		//alert(actElement.html());
+		if (actElement.html() == "&nbsp;"){
+			currentPos--;
+		}
 		currentPos++;	
 		switch ($(this).attr('id')){
 			case 'AButton_sqr':				
@@ -125,11 +129,11 @@ function AdvancedCalController(){
 		}
 		if (currentPos == myFunctionString.length) {
 			currentPos--;
-			if (myFunctionString[currentPos] == ')') {
+			if (myFunctionString[currentPos] == ')' && myFunctionString[currentPos-1] == '(') {
 				currentPos--;
 			}
 		} else {
-			if (myFunctionString[currentPos] == ')') {
+			if (myFunctionString[currentPos] == ')' && myFunctionString[currentPos-1] == '(') {
 				currentPos--;
 			}
 			//currentPos ++;
@@ -164,42 +168,57 @@ function AdvancedCalController(){
 		var formula = $( "div#advancedCalc div#advancedDisplay div.formula" ).html();
 		var IdsToDelete = new Array();
 		var numberOfDeletion = 0;
-		$( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function() {
-			var cls = $( this ).attr('class');
-			var posOfClass = cls.indexOf('DigNo') + 5;
-			var id = "";
+		var actElement = $( "div#advancedCalc div#advancedDisplay div.formula span.currentpos" );
+		if(actElement.get(0).className.indexOf("brace") >=0 && actElement.get(0).className.indexOf("belongtofunc") < 0 ){
+			var delId = actElement.get(0).className;
+			var posOfClass = delId.indexOf('DigNo') + 5;
+				var id = "";
 
-			//console.log
-			var i = posOfClass;
-			while(!isNaN(cls.charAt(i))){
-				id = cls.charAt(i)+id;
-				i++;
-			}
-			IdsToDelete.push(id);
-			if ($(this).hasClass('belongtofunc')){
-				console.log("first ID: " + $(this).attr('id') );
-				var obid = $( this ).attr('id');
-				obid = obid.replace("obno","");
-				var nextEle = $(this).next();
-				if($( "div#advancedCalc div#advancedDisplay div.formula span#cbno"+obid).length > 0){
-					console.log("close brac exist");
-					while (nextEle.attr('id') != "cbno" + obid){
-						//nextEle.addClass('active');
-						console.log("NE class: " + nextEle.attr('class') );
-						posOfClass = cls.indexOf('DigNo') + 5;
-						id = "";
-						i = posOfClass;
-						while(!isNaN(cls.charAt(i))){
-							id = cls.charAt(i)+id;
-							i++;
+				//console.log
+				var i = posOfClass;
+				while(!isNaN(delId.charAt(i))){
+					id = delId.charAt(i)+id;
+					i++;
+				}
+				IdsToDelete.push(id);
+		} else {
+			$( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function( index ) {
+				var cls = $( this ).attr('class');
+				var posOfClass = cls.indexOf('DigNo') + 5;
+				var id = "";
+
+				//console.log
+				var i = posOfClass;
+				while(!isNaN(cls.charAt(i))){
+					id = cls.charAt(i)+id;
+					i++;
+				}
+				IdsToDelete.push(id);
+				if ($(this).hasClass('belongtofunc')){
+					console.log("first ID: " + $(this).attr('id') );
+					var obid = $( this ).attr('id');
+					obid = obid.replace("obno","");
+					var nextEle = $(this).next();
+					if($( "div#advancedCalc div#advancedDisplay div.formula span#cbno"+obid).length > 0){
+						console.log("close brac exist");
+						while (nextEle.attr('id') != "cbno" + obid){
+							//nextEle.addClass('active');
+							console.log("NE class: " + nextEle.attr('class') );
+							posOfClass = cls.indexOf('DigNo') + 5;
+							id = "";
+							i = posOfClass;
+							while(!isNaN(cls.charAt(i))){
+								id = cls.charAt(i)+id;
+								i++;
+							}
+							IdsToDelete.push(id);
+							nextEle = nextEle.next();
+							console.log("NE ID: " + nextEle.attr('id') );
 						}
-						IdsToDelete.push(id);
-						nextEle = nextEle.next();
-						console.log("NE ID: " + nextEle.attr('id') );
-					}
-				}				
-			}
-		});
+					}				
+				}
+			});
+		}
 		while (IdsToDelete.length > 0){
 			var currentId = IdsToDelete.pop();
 			myFunctionString.splice(currentId,1);
@@ -289,7 +308,9 @@ function calculateMathOp(func,OperationArray){
 			}			
 			//console.log("real end: " + secEnd + " | Should end: " + OperationArray[key+1][1]);
 			for(i = value[1]+1; i <= secEnd; i++){
-				secondVal += func[i];
+				if (func[i] != ")"){
+					secondVal += func[i];
+				}
 			}
 			// if (key+1 < OperationArray.length-1, isPointOp(OperationArray[key+1][0])){
 				// console.log("replace Nomber");
@@ -311,7 +332,9 @@ function calculateMathOp(func,OperationArray){
 				if (key == OperationArray.length -1) {
 					var secondVal = "";
 					for(i = value[1]+1; i <= func.length -1; i++){
-						secondVal += func[i];
+						if (func[i] != ")"){
+							secondVal += func[i];
+						}
 					}
 					if (secondVal != "") {
 						ResultAfterPointOp.push(secondVal);
@@ -546,6 +569,7 @@ function printAdvancedFormular(){
 	var cbraces=0;
 	var OpenIdArray = new Array();
 	var NoOfBraces = myFunctionString.toString().split("(").length -1;
+	$("div#advancedCalc div#advancedDisplay div.formula span").removeClass("currentpos");
 	for(i = 0; i<myFunctionString.length; i++) {
 		DisplayString += '<span class="';
 		id  ="";
@@ -612,6 +636,7 @@ function printAdvancedFormular(){
 		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.formula").height() + 'px'});
 		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.result").height() + 'px'});	
 	}
+	$("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos).addClass("currentpos");
 }
 
 function isBraceFunc(funcstring) {

@@ -169,6 +169,7 @@ function AdvancedCalController(){
 		var IdsToDelete = new Array();
 		var numberOfDeletion = 0;
 		var actElement = $( "div#advancedCalc div#advancedDisplay div.formula span.currentpos" );
+		console.log(actElement.get(0).className);
 		if(actElement.get(0).className.indexOf("brace") >=0 && actElement.get(0).className.indexOf("belongtofunc") < 0 ){
 			var delId = actElement.get(0).className;
 			var posOfClass = delId.indexOf('DigNo') + 5;
@@ -177,9 +178,10 @@ function AdvancedCalController(){
 				//console.log
 				var i = posOfClass;
 				while(!isNaN(delId.charAt(i))){
-					id = delId.charAt(i)+id;
+					id = id+delId.charAt(i);
 					i++;
 				}
+				console.log("del id: " + id);
 				IdsToDelete.push(id);
 		} else {
 			$( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function( index ) {
@@ -568,6 +570,8 @@ function printAdvancedFormular(){
 	var obraces=0;
 	var cbraces=0;
 	var OpenIdArray = new Array();
+	var BelongToFuncCloseBrace = new Array();
+	var tempCloseBraceId= "";
 	var NoOfBraces = myFunctionString.toString().split("(").length -1;
 	$("div#advancedCalc div#advancedDisplay div.formula span").removeClass("currentpos");
 	for(i = 0; i<myFunctionString.length; i++) {
@@ -577,6 +581,7 @@ function printAdvancedFormular(){
 			DisplayString += " brace openbrace";
 			if(i-1>=0 && isBraceFunc(myFunctionString[i-1]) !== false){
 				DisplayString += " belongtofunc";
+				BelongToFuncCloseBrace.push(obraces);
 			}
 			id = ' id="obno'+obraces+'"';
 			OpenIdArray.unshift(obraces);
@@ -585,8 +590,12 @@ function printAdvancedFormular(){
 		}
 		if (myFunctionString[i]  == ")") {	
 			//cbraces--;
-			DisplayString += " brace closebrace "
-			id = ' id="cbno'+ (OpenIdArray.shift()) +'"';
+			tempCloseBraceId = OpenIdArray.shift();
+			DisplayString += " brace closebrace ";
+			if (BelongToFuncCloseBrace.indexOf(tempCloseBraceId) >= 0){
+				DisplayString += " belongtofunc ";
+			}
+			id = ' id="cbno'+ (tempCloseBraceId) +'"';
 			cbraces++;
 			// if (cbraces-obraces == 0){
 				// cbraces = obraces;

@@ -120,6 +120,7 @@ function Plus(numberOne, numberTwo){
 function Minus(numberOne, numberTwo){
 	var NOPointIndex = numberOne.toString().indexOf(".");
 	var NTPointIndex = numberTwo.toString().indexOf(".");
+	console.log("Func Minus: " + numberOne + " " + numberTwo );
 	if (NOPointIndex >= 0 || NTPointIndex >= 0){
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
 		return subFloats(sLFloats[0],sLFloats[1]);
@@ -151,10 +152,12 @@ function Divide(numberOne, numberTwo){
 		if (numberOne.toString().indexOf("-") >= 0) {
 			isOneNeg = true;
 			numberOne = numberOne.toString().replace("-","");
+			NOPointIndex = numberOne.toString().indexOf(".");
 		}
 		if (numberTwo.toString().indexOf("-") >= 0) {
 			isTwoNeg = true;
 			numberTwo = numberTwo.toString().replace("-","");
+			NTPointIndex = numberTwo.toString().indexOf(".");
 		}
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
 		console.log("OneNo: " + numberOne + " |OneInd: " + NOPointIndex + " |TwoNo: " + numberTwo + " |TwoInd: " + NTPointIndex);
@@ -299,29 +302,36 @@ function subFloats(NoO,NoT){
 	var rest = 0;
 	var result = "";
 	var ChangePrefix = false;
+	console.log("Start sub: "+ NoO + " | " + NoT );
 	//Maybe String Comapre
-	if(parseFloat(NoT) > parseFloat(NoO)){
-		var temp = NoT;
-		NoT = NoO;
-		NoO= temp;
+	if (parseFloat(NoO) < 0){
+		NoO = NoO.replace("-","");
+		result = addFloats(NoO,NoT);
 		ChangePrefix = true;
-	}
-	for(i = NoO.length-1;i>=0;i--){
-		if (NoO.charAt(i) != ".") {
-			if (NoO.charAt(i) >= (parseInt(NoT.charAt(i)) + rest)){
-				//console.log("Sub: " + NoO.charAt(i) + " - " + NoT.charAt(i));
-				result = (NoO.charAt(i) -(parseInt(NoT.charAt(i)) + rest) ) + result;
-				rest = 0;
-			} else {
-				//console.log("zw. step: (" + "10 + " +  parseInt(NoO.charAt(i)).toString() + ") - (" +  parseInt(NoT.charAt(i)).toString() + " + " + rest + ")"  );
-				//console.log("zw.: " +  parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString());
-				result = parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString() + result;
-				rest = 1;
-			}
-		} else {
-			result = "."+ result;
+	} else {
+		if(parseFloat(NoT) > parseFloat(NoO)){
+			var temp = NoT;
+			NoT = NoO;
+			NoO= temp;
+			ChangePrefix = true;
 		}
-		console.log("res" + result);
+		for(i = NoO.length-1;i>=0;i--){
+			if (NoO.charAt(i) != ".") {
+				if (NoO.charAt(i) >= (parseInt(NoT.charAt(i)) + rest)){
+					//console.log("Sub: " + NoO.charAt(i) + " - " + NoT.charAt(i));
+					result = (NoO.charAt(i) -(parseInt(NoT.charAt(i)) + rest) ) + result;
+					rest = 0;
+				} else {
+					//console.log("zw. step: (" + "10 + " +  parseInt(NoO.charAt(i)).toString() + ") - (" +  parseInt(NoT.charAt(i)).toString() + " + " + rest + ")"  );
+					//console.log("zw.: " +  parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString());
+					result = parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString() + result;
+					rest = 1;
+				}
+			} else {
+				result = "."+ result;
+			}
+			//console.log("res" + result);
+		}
 	}
 	if (ChangePrefix == true){
 		result = "-" + result;
@@ -467,6 +477,8 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	var IndexOfPoint;
 	var OneNeg = false;
 	var TwoNeg = false;
+	console.log("One before init: " + One);
+	console.log("Two before init: " + Two);
 	if(One.indexOf(".") == 0){
 		One = "0"+One;
 		NOPointIndex++;
@@ -485,6 +497,21 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		Two = Two.replace("-","");
 		NTPointIndex--;
 	}
+	// if ((One.indexOf(".") != -1 & Two.indexOf(".")== -1) || (One.indexOf(".") == -1 & Two.indexOf(".")!= -1)){
+		// if(One.indexOf(".") != -1){
+			// One = One + ".";
+			// NOPointIndex = One.indexOf(".");
+		// } else {
+			// Two = Two + ".";
+			// NTPointIndex = Two.indexOf(".")-1;
+		// }
+	// }
+	console.log("One after init: " + One);
+	console.log("Two after init: " + Two);
+	if (One.indexOf(".") < 0 && Two.indexOf(".") >= 0){
+		One = One+ ".";
+		NOPointIndex = One.length -1;
+	}
 	if (NOPointIndex > NTPointIndex) {
 		// console.log("asd" + NTPointIndex);
 		if (NTPointIndex < 0) {
@@ -501,6 +528,7 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		}
 		IndexOfPoint=NOPointIndex;
 	} else if(NTPointIndex >= 0){
+	console.log("NOPointIndex: " + NOPointIndex + " | NTPointIndex:" + NTPointIndex);
 		if (NOPointIndex < 0) {
 			NOPointIndex = One.length;
 			addPoint = true;

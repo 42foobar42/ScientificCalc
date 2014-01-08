@@ -385,20 +385,14 @@ function exactDivision(NoO, NoT){
 	var Two = NoT;
 	var isOneNeg = false;
 	var isTwoNeg = true;
-	
-	console.log("ind two: " + Two.indexOf("."));
-	console.log(One + " :ind One: " + One.indexOf("."));
 	if (Two.indexOf(".") >= 0) {
 		var IndexOfPoint = Two.length - Two.indexOf(".") - 1;
-		console.log("first : " + One.toString() + "| sec : " + Two.toString());
-		console.log("first leng: " + One.length + "| sec leng: " + Two.length);
 		Two = Two.replace(".","");
 		One = One.replace(".","");
 		
 		if (One.length <= Two.length){
-			console.log("first");
+		
 		} else {
-			console.log("second");
 			One = One.substr(0,Two.length) + "." +  One.substr(Two.length + 1);
 		}
 	}
@@ -409,7 +403,6 @@ function exactDivision(NoO, NoT){
 			result = result + "0";
 		}
 	}
-	console.log("One: " + One + " |Two: " + Two);
 	var actIndex = 0;
 	var PointIndex = One.indexOf(".");
 	var count = 0;
@@ -431,7 +424,6 @@ function exactDivision(NoO, NoT){
 		Part = One.substr(0,Two.length);
 	}
 	actIndex = Part.length -1;
-	console.log(Part + "  :" + result);
 	
 	do{
 		if (parseInt(Part) >= parseInt(Two)) {
@@ -442,8 +434,6 @@ function exactDivision(NoO, NoT){
 			Times--;
 			result = result + "" + Times;
 			Part = parseInt(Part) - (parseInt(Two) * Times);
-			console.log("clac part: " + Part + " |two: " + Two + " |Times: " + Times);
-			console.log("Part: " + Part);
 			actIndex++;
 		} else {
 			result = result + "0";
@@ -463,7 +453,6 @@ function exactDivision(NoO, NoT){
 		if(actIndex > One.length){
 			count++;
 		}
-		console.log("part  :" +  Part);
 	} while(count < AFTERFLOATDIGITS);
 	
 	//return One + " " + Two + " " + (NoT.length - NoT.indexOf(".") - 1) + " |res: " + result;
@@ -477,8 +466,6 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	var IndexOfPoint;
 	var OneNeg = false;
 	var TwoNeg = false;
-	console.log("One before init: " + One);
-	console.log("Two before init: " + Two);
 	if(One.indexOf(".") == 0){
 		One = "0"+One;
 		NOPointIndex++;
@@ -497,28 +484,15 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		Two = Two.replace("-","");
 		NTPointIndex--;
 	}
-	// if ((One.indexOf(".") != -1 & Two.indexOf(".")== -1) || (One.indexOf(".") == -1 & Two.indexOf(".")!= -1)){
-		// if(One.indexOf(".") != -1){
-			// One = One + ".";
-			// NOPointIndex = One.indexOf(".");
-		// } else {
-			// Two = Two + ".";
-			// NTPointIndex = Two.indexOf(".")-1;
-		// }
-	// }
-	console.log("One after init: " + One);
-	console.log("Two after init: " + Two);
 	if (One.indexOf(".") < 0 && Two.indexOf(".") >= 0){
 		One = One+ ".";
 		NOPointIndex = One.length -1;
 	}
 	if (NOPointIndex > NTPointIndex) {
-		// console.log("asd" + NTPointIndex);
 		if (NTPointIndex < 0) {
 			NTPointIndex = Two.length;
 			addPoint = true;
 		}
-		// console.log("asd" + NTPointIndex + " afd: " + NOPointIndex);
 		for(i = NOPointIndex-NTPointIndex; i>0;i--){
 			Two = "0"+Two;
 		}
@@ -528,7 +502,6 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		}
 		IndexOfPoint=NOPointIndex;
 	} else if(NTPointIndex >= 0){
-	console.log("NOPointIndex: " + NOPointIndex + " | NTPointIndex:" + NTPointIndex);
 		if (NOPointIndex < 0) {
 			NOPointIndex = One.length;
 			addPoint = true;
@@ -541,12 +514,7 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 			One += ".";
 		}
 		IndexOfPoint=NTPointIndex;
-	} 
-	// else {
-		// Two += ".";
-		// NTPointIndex = Two.length-1;
-	// }
-	
+	} 	
 	if(One.length - IndexOfPoint > Two.length - IndexOfPoint){
 		for(i = (One.length - IndexOfPoint)-(Two.length - IndexOfPoint); i>0;i--){
 			Two = Two+"0";
@@ -562,6 +530,5 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 	if (TwoNeg){
 		Two = "-" + Two;
 	}
-	console.log("*Back makeFloatsSameLength* No1:" + One + " |No2: " + Two);
 	return new Array(One, Two);
 }

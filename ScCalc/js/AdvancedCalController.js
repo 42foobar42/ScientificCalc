@@ -235,8 +235,8 @@ function AdvancedCalController(){
 		}
 		var result = AdvancedCalculate();
 		$( "div#advancedCalc div#advancedDisplay div.result" ).html(result);
-		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.result").height() + 'px'});
-		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.formula").height() + 'px'});		
+		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.95) + 'px'});
+		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.95) + 'px'});		
 	});
 }
 
@@ -568,8 +568,8 @@ function printAdvancedFormular(){
 		} else {
 			$("div#advancedCalc div#advancedDisplay div.formula span#formula-wrap").css({'margin-left': '5px'});
 		}
-		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.formula").height() + 'px'});
-		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  $("div#advancedCalc div#advancedDisplay div.result").height() + 'px'});	
+		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.95) + 'px'});
+		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.95) + 'px'});	
 	}
 	$("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos).addClass("currentpos");
 }

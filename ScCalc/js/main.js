@@ -14,21 +14,24 @@ function buttonFunctionality(){
 	// function swipeHandler( event ){
 		// $( event.target ).addClass( "swipe" );
 	// }
-	$("div#Menu").wipetouch({
-	  tapToClick: true, // if user taps the screen, triggers a click event
+	$("body").wipetouch({
+	  tapToClick: false, // if user taps the screen, triggers a click event
 	  wipeLeft: function(result) { changeMenu(0); },
 	  wipeRight: function(result) { changeMenu(1); }
+	  
 	});
-		
-	$( "div#Menu div.menupoint" ).click(function() {
-		var clickedMenu = $(this).attr('id');
-		//var index = menus.indexOf(clickedMenu);
-		$('div#Menu div.menupoint').removeClass('active');
-		$('div#Menu div#'+ clickedMenu).addClass("active");
-		$('div#page div.Calculator').removeClass('active');
-		$('div#page div#'+ clickedMenu.replace(/_/g,"")).addClass('active');
-		makeFontSize();
-	});
+	makeFontSize();
+	// $( "div#page" ).click(function() {
+		// console.log();
+		// var clickedMenu = $(this).attr('id');
+		// //$('div#Menu div.menupoint.active').attr('id');
+		// //var index = menus.indexOf(clickedMenu);
+		// $('div#Menu div.menupoint').removeClass('active');
+		// $('div#Menu div#'+ clickedMenu).addClass("active");
+		// $('div#page div.Calculator').removeClass('active');
+		// $('div#page div#'+ clickedMenu.replace(/_/g,"")).addClass('active');
+		// makeFontSize();
+	// });
 	
 }
 
@@ -69,8 +72,8 @@ function isErrorInLastOperation(){
 }
 
 function displayCorrections(){
-	var heightEle = $("div#Menu div.menupoint").height();
-	$("div#Menu div.menupoint").width(heightEle);
+	//var heightEle = $("div#Menu div.menupoint").height();
+	//$("div#Menu div.menupoint").width(heightEle);
 }
 
 function isButtonOperation(Button){

@@ -9,31 +9,34 @@ div, input {
     -webkit-box-sizing: border-box;
 }
 
+body div#page{
+	z-index:999;
+}
+
 /**************navigation**********************/
 div#Menu{
 	width:100%;
-	padding:0.5%;
-	height:5%;
+	/*padding:0.5%;*/
+	height:1%;
 	background-color: rgb(24,24,24);
-	text-align: center;
 	background-image: linear-gradient(to top right, rgb(95,95,95) 20%, rgb(24,24,24) 80%);
 }
 
 div.menupoint{
 	/*TODO maybe height and with via js*/
 	height:100%;
-	width:20%;
-	border:solid 2px;
+	width:50%;
+	border:none;
 	display: inline-block;
 	border-color: rgb(236,236,236);
-	border-radius: 999px;
-	margin-right:5%;
 	background-color: transparent;
+	float:left;
+	min-height:2px;
 	/*margin-top:10%;*/
 }
 
 div.menupoint.active{
-	background-color: rgb(236,236,236);
+	background-color: rgb(230,96,0);
 }
 
 div.Calculator.active{
@@ -44,7 +47,7 @@ div.Calculator{
 	display: none;
 	width:100%;
 	padding:0.5%;
-	height:95%;
+	height:99%;
 	background-color: rgb(24,24,24);
 	background-image: linear-gradient(to bottom right, rgb(95,95,95) 20%, rgb(24,24,24) 80%);
 }
@@ -265,7 +268,7 @@ body div#page input.numBut{
 	color: rgb(255,255,255);
 	text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 	box-shadow: inset  3px 3px 2px #ffffff;
-	background-image: linear-gradient(to bottom right, rgb(37,178,228) 0%, rgb(14,60,116) 100%);
+	background-image: linear-gradient(to bottom right, rgb(0, 149, 221) 0%, rgb( 0, 83, 159) 100%);
 }
 
 div#page input.calcBut{
@@ -289,7 +292,7 @@ div#easyCalc div#EasyNumberPad input.mathOp, div#advancedCalc div#advancedNumber
 	text-shadow: -1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white;
 	color:rgb(0,0,0);
 	box-shadow: inset  3px 3px 2px #ffffff;	
-	background-image: linear-gradient(to bottom right, rgb(227,122,42) 0%, rgb(186,45,38) 100%);
+	background-image: linear-gradient(#FF9500, #E66000);
 }
 
 div#easyCalc div#EasyNumberPad  input#Button_Equals, div#advancedCalc div#advancedNumberPad  input#AButton_Equals{

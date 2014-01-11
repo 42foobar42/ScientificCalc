@@ -14,13 +14,16 @@ function buttonFunctionality(){
 	// function swipeHandler( event ){
 		// $( event.target ).addClass( "swipe" );
 	// }
-	$("body").wipetouch({
+	$("div#page").wipetouch({
 	  tapToClick: false, // if user taps the screen, triggers a click event
+	  preventDefault: false,
 	  wipeLeft: function(result) { changeMenu(0); },
 	  wipeRight: function(result) { changeMenu(1); }
 	  
 	});
 	makeFontSize();
+	$( "div#page" ).click(function() {
+	})	;
 	// $( "div#page" ).click(function() {
 		// console.log();
 		// var clickedMenu = $(this).attr('id');

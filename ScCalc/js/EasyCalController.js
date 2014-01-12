@@ -119,12 +119,19 @@ function EasyCalController(){
 		}
 	});
 	$( "div#easyCalc input.calcBut" ).click(function() {
-		var stringlength = $("div#easyCalc div#easyCalDisplay").html().length;
-		var fontsize = ($("div#easyCalc div#easyCalDisplay").width() * 0.95) / stringlength;
-		if (fontsize > ($("div#easyCalc div#easyCalDisplay").height() * 0.95)) {
-			fontsize = $("div#easyCalc div#easyCalDisplay").height() * 0.95;
-		}
-		$("div#easyCalc div#easyCalDisplay").css({'font-size': fontsize + 'px'});
+		EasyCalcFontSize();
 	});
+}
+
+function EasyCalcFontSize(){
+	var stringlength = $("div#easyCalc div#easyCalDisplay").html().length;
+	var fontsize = ($("div#easyCalc div#easyCalDisplay").width() * 1.80) / stringlength;
+	$("div#easyCalc div#easyCalDisplay").css({'padding-top': 0 + 'px'});
+	if (fontsize > ($("div#easyCalc div#easyCalDisplay").height() * 0.95)) {
+		fontsize = $("div#easyCalc div#easyCalDisplay").height() * 0.95;
+	}
+	$("div#easyCalc div#easyCalDisplay").css({'font-size': fontsize + 'px'});
+	var padding = (($("div#easyCalc div#easyCalDisplay").height()*0.95)-fontsize)/2;
+	$("div#easyCalc div#easyCalDisplay").css({'padding-top': padding + 'px'});
 }
 

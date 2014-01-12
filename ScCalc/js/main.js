@@ -118,12 +118,7 @@ function makeFontSize(){
 		}	
 		$(this).css({'font-size': size + "px"});
 	});
-	var stringlength = $("div#easyCalc div#easyCalDisplay").html().length;
-	var fontsize = ($("div#easyCalc div#easyCalDisplay").width() * 0.95) / stringlength;
-	if (fontsize > ($("div#easyCalc div#easyCalDisplay").height() * 0.95)) {
-		fontsize = $("div#easyCalc div#easyCalDisplay").height() * 0.95;
-	}
-	$("div#easyCalc div#easyCalDisplay").css({'font-size': fontsize + 'px'});
+	EasyCalcFontSize();
 }
 
 function PrepareClac(){

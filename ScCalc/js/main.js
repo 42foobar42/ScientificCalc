@@ -9,36 +9,19 @@ function buttonFunctionality(){
 	EasyCalController();
 	AdvancedCalController();
 	/**** wipe Events*****/
-	// $( "div#Menu" ).on( "swipe", swipeHandler );
-	// Callback function references the event target and adds the 'swipe' class to it
-	// function swipeHandler( event ){
-		// $( event.target ).addClass( "swipe" );
-	// }
 	$("div#page").wipetouch({
 	  tapToClick: false, // if user taps the screen, triggers a click event
 	  preventDefault: false,
 	  wipeLeft: function(result) { changeMenu(0); },
-	  wipeRight: function(result) { changeMenu(1); }
-	  
+	  wipeRight: function(result) { changeMenu(1); }  
 	});
 	makeFontSize();
 	$( "div#page" ).click(function() {
-	})	;
-	// $( "div#page" ).click(function() {
-		// console.log();
-		// var clickedMenu = $(this).attr('id');
-		// //$('div#Menu div.menupoint.active').attr('id');
-		// //var index = menus.indexOf(clickedMenu);
-		// $('div#Menu div.menupoint').removeClass('active');
-		// $('div#Menu div#'+ clickedMenu).addClass("active");
-		// $('div#page div.Calculator').removeClass('active');
-		// $('div#page div#'+ clickedMenu.replace(/_/g,"")).addClass('active');
-		// makeFontSize();
-	// });
-	
+	});
 }
 
 function changeMenu(direction){
+	var newDate = new Date();
 	var id = $('div#Menu div.menupoint.active').attr('id');
 	var index = menus.indexOf(id);
 	var newId = "";
@@ -99,15 +82,11 @@ function isButtonOperation(Button){
 function makeFontSize(){
 	$("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
 	$("div#easyCalc input").each(function( index ) {
-		//console.log( index + ": " + $( this ).text() );
 		var size = $(this).height() - (parseFloat($(this).css("border-top-width").replace("px","")) + parseFloat($(this).css("border-bottom-width").replace("px","")));
 		if($(this).height() > $(this).width()){
 			size = $(this).width()- (parseFloat($(this).css("border-left-width").replace("px","")) + parseFloat($(this).css("border-right-width").replace("px","")));
 			size /= $(this).val().length;
-			console.log("sdiv: " + size);
-		}
-		//console.log("s: " + size + " | width: " + $(this).css("border-top-width"));
-		//size 		
+		}	
 		$(this).css({'font-size': size + "px"});
 	});
 	$("div#advancedCalc input").each(function( index ) {
@@ -131,7 +110,6 @@ function PrepareClac(){
 
 $( document ).ready(function() {
 // Handler for .ready() called.
-	//alert("THIS JQ");
 	PrepareClac();
 	displayCorrections();
 	buttonFunctionality();

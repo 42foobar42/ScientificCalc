@@ -6,8 +6,6 @@ function mathFunction(operation,number){
 		number.replace('%','');
 		number = mathOperation(parseFloat(number), 100, '/');
 	}
-	//consoloe.log("Math func: " + );
-	//number = number.toString();
 	switch (operation) {
 		case 'sqr':
 			result = sqr(number);
@@ -62,7 +60,6 @@ function mathOperation(numberOne, numberTwo, Operation){
 	var result = 0;
 	var NoO = numberOne;
 	var NoT = numberTwo;
-	console.log("No: " + numberOne + " |Two: " + numberTwo);
 	if (isNaN(NoO)) {
 		NoO.replace('%','');
 		NoO = mathOperation(parseFloat(NoO), 100, '/');
@@ -75,7 +72,6 @@ function mathOperation(numberOne, numberTwo, Operation){
 	} else {
 		// NoT = parseFloat(numberTwo);
 	}
-	console.log("No: " + NoO + "\ Nt: " + NoT);
 	switch (Operation) {
 		case "+": 
 			result = Plus(NoO, NoT);
@@ -111,7 +107,6 @@ function Plus(numberOne, numberTwo){
 	if (NOPointIndex >= 0 || NTPointIndex >= 0){
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
 		return addFloats(sLFloats[0],sLFloats[1]);
-		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
 		return parseInt(numberOne) + parseInt(numberTwo);
 	}
@@ -120,11 +115,9 @@ function Plus(numberOne, numberTwo){
 function Minus(numberOne, numberTwo){
 	var NOPointIndex = numberOne.toString().indexOf(".");
 	var NTPointIndex = numberTwo.toString().indexOf(".");
-	console.log("Func Minus: " + numberOne + " " + numberTwo );
 	if (NOPointIndex >= 0 || NTPointIndex >= 0){
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
 		return subFloats(sLFloats[0],sLFloats[1]);
-		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
 		return parseInt(numberOne) - parseInt(numberTwo);
 	}
@@ -136,7 +129,6 @@ function Times(numberOne, numberTwo){
 	if (NOPointIndex >= 0 || NTPointIndex >= 0){
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
 		return timesFloats(sLFloats[0],sLFloats[1]);
-		//return "Komma: " + sLFloats[0] + " |" + sLFloats[1];
 	} else {
 		return parseInt(numberOne) * parseInt(numberTwo);
 	}
@@ -160,13 +152,10 @@ function Divide(numberOne, numberTwo){
 			NTPointIndex = numberTwo.toString().indexOf(".");
 		}
 		var sLFloats = makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex);
-		console.log("OneNo: " + numberOne + " |OneInd: " + NOPointIndex + " |TwoNo: " + numberTwo + " |TwoInd: " + NTPointIndex);
-		console.log("O: " + sLFloats[0] + " |Two: " + sLFloats[1]);
 		result = exactDivision(sLFloats[0],sLFloats[1]);
 		if ((isOneNeg == false && isTwoNeg==true ) ||  (isOneNeg == true && isTwoNeg==false ) ){
 			result = "-" + result;
 		}
-		//result = numberOne / numberTwo;
 	}
 	return result;
 }
@@ -176,12 +165,10 @@ function Modulo(numberOne, numberTwo){
 }
 
 function nCr(numberOne, numberTwo){
-	// TODO IF Fact eroor
 	return (fact(numberOne))/(fact(numberTwo)*fact(numberOne-numberTwo));
 }
 
 function nPr(numberOne, numberTwo){
-	// TODO IF Fact eroor
 	return (fact(numberOne))/(fact(numberOne-numberTwo));
 }
 
@@ -204,10 +191,7 @@ function cube(number){
 	if (NOPointIndex >= 0){
 		var sLFloats = makeFloatsSameLength(number, NOPointIndex, number, NOPointIndex);
 		var tempRes = timesFloats(sLFloats[0],sLFloats[1]);
-		console.log("temp:" + tempRes);
 		sLFloats = makeFloatsSameLength( tempRes, tempRes.toString().indexOf("."), number, NOPointIndex);
-		console.log("sfl1:" + sLFloats[0]);
-		console.log("sfl2:" + sLFloats[1]);
 		return timesFloats(sLFloats[0],sLFloats[1]);
 	} else {
 		return number*number*number;
@@ -234,7 +218,6 @@ function fact(number){
 	var result = 1;
 	if (number >= 0){
 		if (number.toString().indexOf('.') >= 0){
-			//var gamma = require('gamma');
 			result = number*gamma(number);
 			if (isNaN(result)){
 				result = ErrorMsg;
@@ -251,13 +234,6 @@ function fact(number){
 }
 
 function exponential(number){
-	// Math.pow
-	//
-	console.log("base: " + number[0] +" |Exp" + number[1]);
-	if (number[1].toString().indexOf('-') >= 0){
-		//number[1] = number[1].toString().replace("-","1/");
-	}
-	//return Math.pow(-0.45, -12);
 	return Math.pow(parseFloat(number[0]), number[1]);
 }
 
@@ -302,8 +278,6 @@ function subFloats(NoO,NoT){
 	var rest = 0;
 	var result = "";
 	var ChangePrefix = false;
-	console.log("Start sub: "+ NoO + " | " + NoT );
-	//Maybe String Comapre
 	if (parseFloat(NoO) < 0){
 		NoO = NoO.replace("-","");
 		result = addFloats(NoO,NoT);
@@ -318,19 +292,15 @@ function subFloats(NoO,NoT){
 		for(i = NoO.length-1;i>=0;i--){
 			if (NoO.charAt(i) != ".") {
 				if (NoO.charAt(i) >= (parseInt(NoT.charAt(i)) + rest)){
-					//console.log("Sub: " + NoO.charAt(i) + " - " + NoT.charAt(i));
 					result = (NoO.charAt(i) -(parseInt(NoT.charAt(i)) + rest) ) + result;
 					rest = 0;
 				} else {
-					//console.log("zw. step: (" + "10 + " +  parseInt(NoO.charAt(i)).toString() + ") - (" +  parseInt(NoT.charAt(i)).toString() + " + " + rest + ")"  );
-					//console.log("zw.: " +  parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString());
 					result = parseInt((10 + parseInt(NoO.charAt(i))) - (parseInt(NoT.charAt(i)) + rest) ).toString() + result;
 					rest = 1;
 				}
 			} else {
 				result = "."+ result;
 			}
-			//console.log("res" + result);
 		}
 	}
 	if (ChangePrefix == true){
@@ -342,7 +312,6 @@ function subFloats(NoO,NoT){
 function addFloats(NoO,NoT){
 	var rest = 0;
 	var result = "";
-	console.log("addfloats!" + rest);
 	for(i = NoO.length-1;i>=0;i--){
 		if (NoO.charAt(i) != ".") {
 			var extension = parseInt(NoO.charAt(i)) + parseInt(NoT.charAt(i)) + parseInt(rest);
@@ -353,7 +322,6 @@ function addFloats(NoO,NoT){
 				result = extension + result;
 				rest = 0;
 			}
-			console.log("rest" + rest);
 		} else {
 			result = "."+ result;
 		}
@@ -496,7 +464,6 @@ function makeFloatsSameLength(numberOne, NOPointIndex, numberTwo, NTPointIndex){
 		for(i = NOPointIndex-NTPointIndex; i>0;i--){
 			Two = "0"+Two;
 		}
-		console.log("two: " + Two );
 		if(addPoint){
 			Two += ".";
 		}

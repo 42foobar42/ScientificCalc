@@ -6,7 +6,6 @@ var memory = "";
 function EasyCalController(){
 	
 	$( "div#easyCalc input.numBut" ).click(function() {
-		//$("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
 		isErrorInLastOperation();
 		if ($( "div#easyCalc div#easyCalDisplay" ).html() == '0' ) {
 			$( "div#easyCalc div#easyCalDisplay" ).html("");
@@ -24,9 +23,6 @@ function EasyCalController(){
 	$( "div#easyCalc input.mathOp" ).click(function() {
 		if (isButtonOperation(lastButton) == false) {
 			if (activeOperation != "" && lastNumber != "") {
-				//var OperationArray = findAllMathOps(lastNumber.toString() + activeOperation + $( "div#easyCalc div#easyCalDisplay" ).html());
-				//var result = calculateMathOp(myFunctionString,OperationArray);
-				//$( "div#easyCalc div#easyCalDisplay" ).html(CalcInnerBraces(lastNumber.toString() + activeOperation + $( "div#easyCalc div#easyCalDisplay" ).html()));
 				$( "div#easyCalc div#easyCalDisplay" ).html( mathOperation(lastNumber.toString(),$( "div#easyCalc div#easyCalDisplay" ).html().toString(), activeOperation));
 			}
 			activeOperation = $(this).val();
@@ -52,7 +48,6 @@ function EasyCalController(){
 		}
 	});
 	$( "div#easyCalc input#Button_Equals" ).click(function() {
-		// $("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
 		if (activeOperation != "" && lastNumber != "" && $( "div#easyCalc div#easyCalDisplay" ).html() != "") {
 			$( "div#easyCalc div#easyCalDisplay" ).html( mathOperation(lastNumber,$( "div#easyCalc div#easyCalDisplay" ).html(), activeOperation));
 		}
@@ -61,9 +56,7 @@ function EasyCalController(){
 		lastButton = $(this).val();
 	});
 	$( "div#easyCalc input#Button_Bs" ).click(function() {
-		// $("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
 		if ($.isNumeric(lastButton)){
-			console.log("is num");
 			if($( "div#easyCalc div#easyCalDisplay" ).html().length > 1) {
 				$( "div#easyCalc div#easyCalDisplay" ).html($( "div#easyCalc div#easyCalDisplay" ).html().substring(0,$( "div#easyCalc div#easyCalDisplay" ).html().length-1));
 			} else {
@@ -76,17 +69,13 @@ function EasyCalController(){
 		}	
 	});
 	$( "div#easyCalc input#Button_Sign" ).click(function() {
-		// $("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
-		//if($.isNumeric(lastButton)) {
 			if ($( "div#easyCalc div#easyCalDisplay" ).html().indexOf('-') == -1 ) {
 				$( "div#easyCalc div#easyCalDisplay" ).html("-" + $( "div#easyCalc div#easyCalDisplay" ).html());
 			} else {
 				$( "div#easyCalc div#easyCalDisplay" ).html($( "div#easyCalc div#easyCalDisplay" ).html().replace("-",""));
 			}
-		//}
 	});
 	$( "div#easyCalc input.memBut" ).click(function() {
-		// $("div#easyCalc div#easyCalDisplay").css({'font-size':  $("div#easyCalc div#easyCalDisplay").height() + 'px'});
 		switch ($(this).val()){
 			case 'MC':
 				memory = "";

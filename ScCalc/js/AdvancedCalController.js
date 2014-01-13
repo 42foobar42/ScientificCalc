@@ -136,10 +136,6 @@ function AdvancedCalController(){
 			if (myFunctionString[currentPos] == ')' && myFunctionString[currentPos-1] == '(') {
 				currentPos--;
 			}
-			//currentPos ++;
-			// if (myFunctionString.length - CountFuncString > 2){
-				// currentPos ++;
-			// }
 		}
 		if(myFunctionString.indexOf('&nbsp;') >= 0) {
 			myFunctionString.splice(myFunctionString.indexOf('&nbsp;'),1);
@@ -163,56 +159,57 @@ function AdvancedCalController(){
 		printAdvancedFormular();
 	});
 	$( "div#advancedCalc div#advancedNumberPad input#AButton_DEL" ).click(function() {
-		var formula = $( "div#advancedCalc div#advancedDisplay div.formula" ).html();
-		var IdsToDelete = new Array();
-		var numberOfDeletion = 0;
-		var actElement = $( "div#advancedCalc div#advancedDisplay div.formula span.currentpos" );
-		if(actElement.get(0).className.indexOf("brace") >=0 && actElement.get(0).className.indexOf("belongtofunc") < 0 ){
-			var delId = actElement.get(0).className;
-			var posOfClass = delId.indexOf('DigNo') + 5;
-				var id = "";
-				var i = posOfClass;
-				while(!isNaN(delId.charAt(i))){
-					id = id+delId.charAt(i);
-					i++;
-				}
-				IdsToDelete.push(id);
-		} else {
-			$( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function( index ) {
-				var cls = $( this ).attr('class');
-				var posOfClass = cls.indexOf('DigNo') + 5;
-				var id = "";
-				var i = posOfClass;
-				while(!isNaN(cls.charAt(i))){
-					id = cls.charAt(i)+id;
-					i++;
-				}
-				IdsToDelete.push(id);
-				if ($(this).hasClass('belongtofunc')){
-					var obid = $( this ).attr('id');
-					obid = obid.replace("obno","");
-					var nextEle = $(this).next();
-					if($( "div#advancedCalc div#advancedDisplay div.formula span#cbno"+obid).length > 0){
-						while (nextEle.attr('id') != "cbno" + obid){
-							posOfClass = cls.indexOf('DigNo') + 5;
-							id = "";
-							i = posOfClass;
-							while(!isNaN(cls.charAt(i))){
-								id = cls.charAt(i)+id;
-								i++;
-							}
-							IdsToDelete.push(id);
-							nextEle = nextEle.next();
-						}
-					}				
-				}
-			});
-		}
-		while (IdsToDelete.length > 0){
-			var currentId = IdsToDelete.pop();
-			myFunctionString.splice(currentId,1);
-			numberOfDeletion++;
-		}
+		// var formula = $( "div#advancedCalc div#advancedDisplay div.formula" ).html();
+		// var IdsToDelete = new Array();
+		// var numberOfDeletion = 0;
+		// var actElement = $( "div#advancedCalc div#advancedDisplay div.formula span.currentpos" );
+		// if(actElement.get(0).className.indexOf("brace") >=0 && actElement.get(0).className.indexOf("belongtofunc") < 0 ){
+			// var delId = actElement.get(0).className;
+			// var posOfClass = delId.indexOf('DigNo') + 5;
+				// var id = "";
+				// var i = posOfClass;
+				// while(!isNaN(delId.charAt(i))){
+					// id = id+delId.charAt(i);
+					// i++;
+				// }
+				// IdsToDelete.push(id);
+		// } else {
+			// $( "div#advancedCalc div#advancedDisplay div.formula span.active" ).each(function( index ) {
+				// var cls = $( this ).attr('class');
+				// var posOfClass = cls.indexOf('DigNo') + 5;
+				// var id = "";
+				// var i = posOfClass;
+				// while(!isNaN(cls.charAt(i))){
+					// id = cls.charAt(i)+id;
+					// i++;
+				// }
+				// IdsToDelete.push(id);
+				// if ($(this).hasClass('belongtofunc')){
+					// var obid = $( this ).attr('id');
+					// obid = obid.replace("obno","");
+					// var nextEle = $(this).next();
+					// if($( "div#advancedCalc div#advancedDisplay div.formula span#cbno"+obid).length > 0){
+						// while (nextEle.attr('id') != "cbno" + obid){
+							// posOfClass = cls.indexOf('DigNo') + 5;
+							// id = "";
+							// i = posOfClass;
+							// while(!isNaN(cls.charAt(i))){
+								// id = cls.charAt(i)+id;
+								// i++;
+							// }
+							// IdsToDelete.push(id);
+							// nextEle = nextEle.next();
+						// }
+					// }				
+				// }
+			// });
+		// }
+		// while (IdsToDelete.length > 0){
+			// var currentId = IdsToDelete.pop();
+			// myFunctionString.splice(currentId,1);
+			// numberOfDeletion++;
+		// }
+		myFunctionString.splice(currentPos,1);
 		if (currentPos >= myFunctionString.length){
 			if(myFunctionString.length > 0){
 				currentPos = myFunctionString.length-1;	
@@ -235,8 +232,8 @@ function AdvancedCalController(){
 		}
 		var result = AdvancedCalculate();
 		$( "div#advancedCalc div#advancedDisplay div.result" ).html(result);
-		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.95) + 'px'});
-		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.95) + 'px'});		
+		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.90) + 'px'});
+		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.70) + 'px'});		
 	});
 }
 
@@ -568,8 +565,8 @@ function printAdvancedFormular(){
 		} else {
 			$("div#advancedCalc div#advancedDisplay div.formula span#formula-wrap").css({'margin-left': '5px'});
 		}
-		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.95) + 'px'});
-		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.95) + 'px'});	
+		$("div#advancedCalc div#advancedDisplay div.formula").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.formula").height() * 0.70) + 'px'});
+		$("div#advancedCalc div#advancedDisplay div.result").css({'font-size':  ($("div#advancedCalc div#advancedDisplay div.result").height() * 0.90) + 'px'});	
 	}
 	$("div#advancedCalc div#advancedDisplay div.formula span.DigNo" + currentPos).addClass("currentpos");
 }

@@ -394,10 +394,10 @@ function CalcInnerBraces(func){
 						} 
 						func.splice(startInnerBrace+1, lengthInnerBrace-1 + additional, InnerBracRes);
 					} else {
-						func.splice(startInnerBrace, lengthInnerBrace + additional, result);
-						if(!isNaN(func[startInnerBrace+result.toString().length])){
-							func.splice(startInnerBrace+result.toString().length,0,"*");
+						if(isNaN(func[startInnerBrace+lengthInnerBrace + additional+1]) && func.length > (startInnerBrace+lengthInnerBrace + additional+1)){
+							func.splice(startInnerBrace+lengthInnerBrace + additional+1,0,"*");
 						}
+						func.splice(startInnerBrace, lengthInnerBrace + additional, result);
 						if(!isNaN(func[startInnerBrace - 1])){
 							func.splice(startInnerBrace,0,"*");
 							startInnerBrace++;
